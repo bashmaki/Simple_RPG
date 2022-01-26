@@ -1,0 +1,51 @@
+RoomName: The Ruins of a Shattered Castle
+Number: 1
+Desc: You stand in the ruins of a shattered castle.
+Desc: All around you lies rubble. You can see
+Desc: what used to be a large entry way to the north.
+Desc: To the south lies a pieceful Glen.
+Exit: South 2
+Exit: North 6
+RoomName: A Peaceful Glen
+Number: 2
+Desc: This peaceful Glen is Peacful.
+Desc: The peacefulness of it all is making your head spin.
+Desc: It is so darn peacful
+Desc: Wow
+Exit: North 1
+Exit: West 3
+RoomName: Entrance to a Drow Mine
+Number: 3
+Desc: The gently sloping plain rises sharply here as a hill rises to the west.
+Desc: There is a mine shaft west of you with a clearly
+Desc: defined pathway leading up and inside.
+Desc: It looks dark in there.
+Exit: East 2
+Exit: West 4
+RoomName: Inside the Drow Mine
+Number: 4
+Desc: The walls here have been away by hand tools
+Desc: evidenced by the broken tools and machinery situated around you.
+Dedc: A smoky odor hangs in the air
+Exit: East 3
+Exit: South 5
+RoomName: A Drow Mine Shaft
+Number: 5
+Desc: This Drow Mine Shaft Leads Further into the hillside.
+Desc: Large Supports have been built into the walls supporting
+Desc: the tons of weight above you.
+Exit: North 4
+RoomName: Beneath a ruined Archway
+Number: 6
+Desc: This large archway once stood at the entrance to a castle or fortress
+Desc: of some sort. Large stones and rubble stand all around you. To
+Desc: the north stands what's left of a large courtyard.
+Exit: South 1
+Exit: North 7
+RoomName: A ruined courtyard
+Number: 7
+Desc: This courtyard once served as an entry way to th ruined castle
+Desc: you see standing North of here. Stone and rubble lie everywhere
+Exit: South 6
+
+
