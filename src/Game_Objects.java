@@ -8,17 +8,17 @@ public class Game_Objects {
     static List<Object> NPCDataBase = new ArrayList<Object>();  //12. Создали лист с типом Object, который будет принимать разных персонажей
     static List<Object> ItemDataBase = new ArrayList<Object>(); //22. это будет база данных всех предметов в игре, на которые мы можем ссылаться в цикле.
 
-//    static List<NPC> npc = new ArrayList<NPC>();
+    //    static List<NPC> npc = new ArrayList<NPC>();
 //    static List<Item> item = new ArrayList<Item>();
-//    static Combat combat = new Combat();
+   // static Combat_1 combat = new Combat_1();
     static RNG rng = new RNG();
 //    static List<Object> allNPCs = new ArrayList<Object>();
 
-    public static void initializeNPCArray() {
-        NPCDataBase.add(new NPC());     //новых игровых персонажей
-        NPCDataBase.add(new Troll());   //и троллей
-        NPCDataBase.add(new Dragon());   //и драков
-    }
+//    public static void initializeNPCArray() {
+//        NPCDataBase.add(new NPC());     //новых игровых персонажей
+//        NPCDataBase.add(new Troll());   //и троллей
+//        NPCDataBase.add(new Dragon());   //и драков
+//    }
 
     public static void initializeItemArray() {  //23. Входной пункт для всех создаваемых вещей
         ItemDataBase.add(new Item());

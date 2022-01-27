@@ -19,7 +19,7 @@ public class MonsterThread {    //42. Создали класс
                     //System.out.println("Something Happens");
                     populateGame(); //вызываем метод "заполнить игру"
                     try {
-                        Thread.sleep(5000); //ждем одну секунду и вызываем снова метод "заполнить игру"
+                        Thread.sleep(1000); //ждем "одну" секунду и вызываем снова метод "заполнить игру"
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
