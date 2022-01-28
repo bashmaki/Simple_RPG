@@ -18,7 +18,7 @@ public class PC {
             for(int i = 0; i < item.size(); i++) {  //проходимся по всему инвентарю игрока
                 if(x[1].equalsIgnoreCase(item.get(i).id) && item.get(i).isWearable) {   //cобираемся проверить, экипировка, которую несет с собой игрок, равна ли той, что мы хотим использовать?
                     wornItems.add(item.get(i)); //кольцо не надето на палец? если нет - надеваем
-                    System.out.println("You wear a " + item.get(i).name + " my Lord!");
+                    System.out.println(Game_Objects.pc.name + ", you wear a " + item.get(i).name);
                     item.remove(i); //и убираем кольцо из экипировки (оно уже надето на палец)
                     break;
                 }
