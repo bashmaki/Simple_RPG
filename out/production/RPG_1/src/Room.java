@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Room { //6 Создаем класс "Комната"
     int number;
@@ -12,5 +13,10 @@ public class Room { //6 Создаем класс "Комната"
     public Room(int x)		//конструктор, который будет принимать один параметр - номер комнаты
     {
         number = x;
+    }
+    
+    public Optional<NPC> getNpc(String name)
+    {
+        return npc.stream().filter(n -> n.id.equalsIgnoreCase(name)).findFirst();
     }
 }

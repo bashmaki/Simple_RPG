@@ -35,7 +35,7 @@ public class MonsterThread {    //42. Создали класс
 
         List<String> lines = new ArrayList<String>();
         try {
-            lines = currentGL.readLines("C:\\Users\\user\\IdeaProjects\\RPG_1\\src\\TextFiles\\MonsterLocs.txt");   //считываем файл и заносим его в переменную  лист типа String lines
+            lines = currentGL.readLines("C:\\Users\\gnusa\\IdeaProjects\\Simple_RPG\\src\\TextFiles\\MonsterLocs.txt");   //считываем файл и заносим его в переменную  лист типа String lines
         } catch (IOException e) {
             e.printStackTrace();
         }

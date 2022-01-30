@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 import static java.lang.Class.*;
@@ -11,30 +12,30 @@ import static java.lang.Class.*;
 public class Game_Logic {
     public Game_Logic() {                       //7. Прописали игровую логику перемещения по комнатам
         Game_Objects.room.add(new Room(0));  //(0)   //8 Первое, что случается с запуском игры - добавили в вызванный конструктор Game_Logic() новую комнату с номером "1"
-       // Game_Objects.room.get(0).name = "Floating in Space";    //Размещаемся в игре
+        // Game_Objects.room.get(0).name = "Floating in Space";    //Размещаемся в игре
 
         //part8 (38 п.)
         List<String> roomInfo = new ArrayList<>();  //38.Создаем лист типа String
         try {
-            roomInfo = readLines("C:\\Users\\user\\IdeaProjects\\RPG_1\\src\\TextFiles\\RoomDescription.txt");  //и пытаемся прочесть в него файл, указанный по этому адресу
+            roomInfo = readLines("C:\\Users\\gnusa\\IdeaProjects\\Simple_RPG\\src\\TextFiles\\RoomDescription.txt");  //и пытаемся прочесть в него файл, указанный по этому адресу
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        for(int i = 0; i < roomInfo.size(); i++) {  //пройдемся по всему считаному файлу и помещенному в ArrayList
+        for (int i = 0; i < roomInfo.size(); i++) {  //пройдемся по всему считаному файлу и помещенному в ArrayList
             String[] firstWord = roomInfo.get(i).split(" ");
             String[] everythingElse = roomInfo.get(i).split(":");
 
-            if(firstWord[0].equals("RoomName:")) {
+            if (firstWord[0].equals("RoomName:")) {
                 int currentRoomSize = Game_Objects.room.size();
                 Game_Objects.room.add(new Room(currentRoomSize));
                 Game_Objects.room.get(Game_Objects.room.size() - 1).name = everythingElse[1];
                 Game_Objects.room.get(Game_Objects.room.size() - 1).number = (currentRoomSize);
 
                 int roomcount = 0;
-                for(int z = 0; z < roomInfo.size(); z++) {
+                for (int z = 0; z < roomInfo.size(); z++) {
                     String[] nextFirstWord = roomInfo.get(z).split(" ");
-                    if(nextFirstWord[0].equals("RoomName:")) {      //если мы видем в arraylist текст "Roomname", то
+                    if (nextFirstWord[0].equals("RoomName:")) {      //если мы видем в arraylist текст "Roomname", то
                         roomcount++;                                //создаем комнату с новым номером
                     }
                     if (roomcount == currentRoomSize) {
@@ -45,15 +46,15 @@ public class Game_Logic {
                     }
                 }
                 roomcount = 0;
-                for(int z = 0; z < roomInfo.size(); z++) {
+                for (int z = 0; z < roomInfo.size(); z++) {
                     String[] nextFirstWord = roomInfo.get(z).split(" ");
-                    if(nextFirstWord[0].equals("RoomName:")) {
+                    if (nextFirstWord[0].equals("RoomName:")) {
                         roomcount++;
                     }
-                    if(roomcount == currentRoomSize) {
+                    if (roomcount == currentRoomSize) {
                         if (nextFirstWord[0].equals("Exit:")) {
                             String[] nextEverythingElse = roomInfo.get(z).split(":");
-                            Game_Objects.room.get(Game_Objects.room.size() -1).exits.add(nextEverythingElse[1]);
+                            Game_Objects.room.get(Game_Objects.room.size() - 1).exits.add(nextEverythingElse[1]);
                         }
                     }
                 }
@@ -95,22 +96,22 @@ public class Game_Logic {
         if (x[0].equals("create")) { //29. первый индекс команды создания экипировки
             create_item(x);
         }
-        if(x[0].equals("get")) {    //30. Первый индекс для команды взять экипировку
+        if (x[0].equals("get")) {    //30. Первый индекс для команды взять экипировку
             get(x);
         }
-        if(x[0].equals("wear")) {   //35. Команда одеть игрока
+        if (x[0].equals("wear")) {   //35. Команда одеть игрока
             Game_Objects.pc.wear(x);
         }
-        if(x[0].equals("eq")) {     //36. Проверить надетые вещи
+        if (x[0].equals("eq")) {     //36. Проверить надетые вещи
             Game_Objects.pc.eq();
         }
-        if(x[0].equals("remove")) { //37. Команда снять вещь
+        if (x[0].equals("remove")) { //37. Команда снять вещь
             Game_Objects.pc.remove(x);
         }
-        if(x[0].equals("move")) {   //41.Первое слово к команде перемещения по локациям
+        if (x[0].equals("move")) {   //41.Первое слово к команде перемещения по локациям
             move(x);
         }
-        if(x[0].equals("attack")) {
+        if (x[0].equals("attack")) {
             attack(x);
         }
     }
@@ -250,7 +251,7 @@ public class Game_Logic {
         BufferedReader bufferedReader = new BufferedReader(fileReader);
         List<String> lines = new ArrayList<String>();
         String line = null;
-        while ((line= bufferedReader.readLine()) != null) { //читаем каждую линию в файле
+        while ((line = bufferedReader.readLine()) != null) { //читаем каждую линию в файле
             lines.add(line);
         }
         bufferedReader.close();
@@ -258,19 +259,20 @@ public class Game_Logic {
     }
 
     public void move(String[] x) {  //40. Создали метод перемещения по комнатам
-        if(x.length == 1) {
+        if (x.length == 1) {
             System.out.println("Move where?");
         }
-        if(x.length == 2) { //е)
+        if (x.length == 2) { //е)
             //Важный момент!//
-           moveLoop:   //б)
-           //Важный момент//
-            for(int i = 0; i < Game_Objects.room.size(); i++) { //г)  пройдемся циклом по всем комнатам
-                if(Game_Objects.room.get(i).number == Game_Objects.pc.inRoom) {  //д)    если мы находимся в той комнате, которая сейчас идет в цикле
-                    for(int y = 0; y < Game_Objects.room.get(i).exits.size(); y++) { //пройдемся по всем Exit-ам из комнат согласно файлу
+            moveLoop:
+            //б)
+            //Важный момент//
+            for (int i = 0; i < Game_Objects.room.size(); i++) { //г)  пройдемся циклом по всем комнатам
+                if (Game_Objects.room.get(i).number == Game_Objects.pc.inRoom) {  //д)    если мы находимся в той комнате, которая сейчас идет в цикле
+                    for (int y = 0; y < Game_Objects.room.get(i).exits.size(); y++) { //пройдемся по всем Exit-ам из комнат согласно файлу
                         String exitRequested = Game_Objects.room.get(i).exits.get(y); // создаем переменную, куда помещаем выходы из комнаты
                         String[] exitArray = exitRequested.split(" ");  //поместим все exit из комнаты в массив, разделяя пробелом
-                        if(x[1].equalsIgnoreCase(exitArray[1])) {   //если команда игрока(второе слово) равна exit-ам массива
+                        if (x[1].equalsIgnoreCase(exitArray[1])) {   //если команда игрока(второе слово) равна exit-ам массива
                             Game_Objects.pc.inRoom = Integer.parseInt((exitArray[2]));  //индекс массива 2 парсим в инт, так как получаемое значение - строка.
                             String[] badProgramming = new String[1];
                             badProgramming[0] = "nada";
@@ -286,48 +288,46 @@ public class Game_Logic {
     }
 
     public void attack(String[] x) {    //51.
-        for (int i = 0; i < Game_Objects.room.size(); i++) {  //пройдемся по всем комнатам
-            if (Game_Objects.room.get(i).number == Game_Objects.pc.inRoom) { //сверили комнаты с комнатой, в которой находится игрок
-                for (int y = 0; y < Game_Objects.room.get(i).npc.size(); y++) {  //пройдемся по всем монстрам в данной комнате, где находится игрок
-                    if (Game_Objects.room.get(i).npc.get(y).id.equalsIgnoreCase(x[1])) { //Выясняем, что за тварь мы хотим атаковать
-                        int npc_hit = Game_Objects.rng.returnRandom(100);   //рандомно создаем очки урона у  монстра
-                        npc_hit = npc_hit + (Game_Objects.room.get(i).npc.get(y).accuracy / 2); //урон равен базовому урону и плюс половина точности
-                        if (npc_hit > 50) {  //если очки урона больше 50
-                            int npc_damage = Game_Objects.rng.returnRandom(10); //повреждение будет рандомным числом до 10
-                            Game_Objects.pc.hp = Game_Objects.pc.hp - npc_damage;   //жизнь игрока уменьшается на размер нанесенного урона
-                            System.out.println("The " + Game_Objects.room.get(i).npc.get(y).name + " hit you of " + npc_damage);    //выводим сообщение о полученом ущербе
-                        } else {
-                            System.out.println("The " + Game_Objects.room.get(i).npc.get(y).name + " missed");  //либо же монстр промахнулся
-                        }
+
+        int i = Game_Objects.pc.inRoom;
+        Optional<NPC> npcToAttack = Game_Objects.room.get(i).getNpc(x[1]);
+
+        if (npcToAttack == null)
+            return;
+
+        int npc_hit = Game_Objects.rng.returnRandom(100);   //рандомно создаем очки урона у  монстра
+        npc_hit = npc_hit + (npcToAttack.get().accuracy / 2); //урон равен базовому урону и плюс половина точности
+
+        if (npc_hit > 50) {  //если очки урона больше 50
+            int npc_damage = Game_Objects.rng.returnRandom(10); //повреждение будет рандомным числом до 10
+            Game_Objects.pc.hp = Game_Objects.pc.hp - npc_damage;   //жизнь игрока уменьшается на размер нанесенного урона
+            System.out.println("The " + npcToAttack.get().name + " hit you of " + npc_damage);    //выводим сообщение о полученом ущербе
+        } else {
+            System.out.println("The " + npcToAttack.get().name + " missed");  //либо же монстр промахнулся
+        }
 
 
-
-                        int pc_hit = Game_Objects.rng.returnRandom(100);    //рандомный урон игрока (до 100)
-                        pc_hit = npc_hit + (Game_Objects.room.get(i).npc.get(y).accuracy / 2);    //урон будет равен полученному рандомно размеру урона плюс точность / 2
-                        if (pc_hit > 50) {   //если наносимый ущерб будет больше 50
-                            int pc_damage = Game_Objects.rng.returnRandom(10);  //сокращаем этот урон до (1-10)
-                            Game_Objects.room.get(i).npc.get(y).hp = Game_Objects.room.get(i).npc.get(i).hp - pc_damage;    //и уменьшаем жизнь монстра на размер урона нанесенного игроком
-                            if (Game_Objects.room.get(i).npc.get(y).hp <= 0) {   //если здоровье монстра меньше или 0 - он погибает
-                                npc_death(i, y);
-                            }
-                        } else if (Game_Objects.pc.hp <= 0) {
-                            pc_death(i, y);
-                        } else {
-                            System.out.println("You missed");   //либо же вы пропустили
-                        }
-
-                    }
-                }
+        int pc_hit = Game_Objects.rng.returnRandom(100);    //рандомный урон игрока (до 100)
+        pc_hit = npc_hit + (npcToAttack.get().accuracy / 2);    //урон будет равен полученному рандомно размеру урона плюс точность / 2
+        if (pc_hit > 50) {   //если наносимый ущерб будет больше 50
+            int pc_damage = Game_Objects.rng.returnRandom(10);  //сокращаем этот урон до (1-10)
+            npcToAttack.get().hp = npcToAttack.get().hp - pc_damage;    //и уменьшаем жизнь монстра на размер урона нанесенного игроком
+            if (npcToAttack.get().hp <= 0) {   //если здоровье монстра меньше или 0 - он погибает
+                npc_death(i, npcToAttack.get());
             }
+        } else if (Game_Objects.pc.hp <= 0) {
+            pc_death();
+        } else {
+            System.out.println("You missed");   //либо же вы пропустили
         }
     }
 
-    public void npc_death(int i, int y) {   //52.
-        System.out.println("A " + Game_Objects.room.get(i).npc.get(y).name + " has died");
+    public void npc_death(int i, NPC y) {   //52.
+        System.out.println("A " + y.name + " has died");
         Game_Objects.room.get(i).npc.remove(y);
     }
 
-    public void pc_death(int i, int y) {    //53.
+    public void pc_death() {    //53.
         System.out.println("My lord, you are die!");
         System.out.println("You travelling is over...");
     }
