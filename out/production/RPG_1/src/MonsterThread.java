@@ -46,7 +46,7 @@ public class MonsterThread {    //42. Создали класс
                     if (Game_Objects.room.get(y).number == Integer.parseInt(words[2])) { // b) мы увидим, о какой комнате идет речь. Если видим третью позицию, хорошо, делаем что-то дальше
                         for (int z = 0; z < Game_Objects.room.get(y).npc.size(); z++) { //проверяем в комнате всех монстров
                             if (Game_Objects.room.get(y).npc.get(z).id.equalsIgnoreCase(words[1])) {    //проверяем комнату на любого монстра, который имеет id номер 1 (Dragon или Troll)
-                                roomMobCount++; //если обнаружили, добавляем одну штуку. Если не прописать этой строки, то каждую секунду будет создаваться новый монстр
+                                roomMobCount += Game_Objects.pc.inRoom == y ? 0 : 1; //если обнаружили, добавляем одну штуку. Если не прописать этой строки, то каждую секунду будет создаваться новый монстр
                             }
                         }
                     }

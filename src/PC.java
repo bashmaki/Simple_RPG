@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class PC {
     String name;
@@ -60,5 +61,23 @@ public class PC {
         for(int i = 0; i < wornItems.size(); i++) { //для всей экипировки, которая надета
             System.out.println(wornItems.get(i).name + ":" + wornItems.get(i).wearloc); //имя экипировки и  место применения
         }
+    }
+
+    public int swordDamage() {
+        for (int i = 0; i< wornItems.size(); i++) {
+            if (wornItems.get(i).name.toLowerCase(Locale.ROOT) == "flaming sword")
+                return ((Flaming_Sword)wornItems.get(i)).damage;
+        }
+
+        return 0;
+    }
+
+    public boolean isRingWear() {
+        for (int i = 0; i< wornItems.size(); i++) {
+            if (wornItems.get(i).name.toLowerCase(Locale.ROOT) == "diamond_ring")
+                return true;
+        }
+
+        return false;
     }
 }

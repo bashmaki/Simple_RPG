@@ -201,6 +201,7 @@ public class Game_Logic {
             System.out.println("Create what exactly?");
         }
         if (x.length == 2) {
+
             for (int i = 0; i < Game_Objects.ItemDataBase.size(); i++) { //проходимся циклом по всей базе данных экипировки
                 Item localItem = (Item) Game_Objects.ItemDataBase.get(i); //создаем копию для каждой единици экипировки и поместили ее в локальную переменную, чтобы работать с ней внутри метода
                 if (localItem.id.equalsIgnoreCase(x[1])) {   //проверяем на условие, что второй элемент массива нашей вводимой в консоль команды соответсвует локальной переменной
@@ -295,31 +296,41 @@ public class Game_Logic {
         if (npcToAttack == null)
             return;
 
+        NPC monster = npcToAttack.get();
+
         int npc_hit = Game_Objects.rng.returnRandom(100);   //рандомно создаем очки урона у  монстра
-        npc_hit = npc_hit + (npcToAttack.get().accuracy / 2); //урон равен базовому урону и плюс половина точности
+        npc_hit = npc_hit + monster.accuracy / 2; //урон равен базовому урону и плюс половина точности
 
         if (npc_hit > 50) {  //если очки урона больше 50
             int npc_damage = Game_Objects.rng.returnRandom(10); //повреждение будет рандомным числом до 10
             Game_Objects.pc.hp = Game_Objects.pc.hp - npc_damage;   //жизнь игрока уменьшается на размер нанесенного урона
-            System.out.println("The " + npcToAttack.get().name + " hit you of " + npc_damage);    //выводим сообщение о полученом ущербе
+            System.out.println("The " + monster.name + " hit you of " + npc_damage);    //выводим сообщение о полученом ущербе
         } else {
-            System.out.println("The " + npcToAttack.get().name + " missed");  //либо же монстр промахнулся
+            System.out.println("The " + monster.name + " missed");  //либо же монстр промахнулся
         }
 
+        int pc_hit = Game_Objects.rng.returnRandom(10);    //рандомный урон игрока (до 100)
+        int swordDamage = Game_Objects.pc.swordDamage();
 
-        int pc_hit = Game_Objects.rng.returnRandom(100);    //рандомный урон игрока (до 100)
-        pc_hit = npc_hit + (npcToAttack.get().accuracy / 2);    //урон будет равен полученному рандомно размеру урона плюс точность / 2
-        if (pc_hit > 50) {   //если наносимый ущерб будет больше 50
-            int pc_damage = Game_Objects.rng.returnRandom(10);  //сокращаем этот урон до (1-10)
-            npcToAttack.get().hp = npcToAttack.get().hp - pc_damage;    //и уменьшаем жизнь монстра на размер урона нанесенного игроком
-            if (npcToAttack.get().hp <= 0) {   //если здоровье монстра меньше или 0 - он погибает
-                npc_death(i, npcToAttack.get());
-            }
+        pc_hit = (swordDamage > 0 ? swordDamage : Game_Objects.rng.returnRandom(10)) +
+                (Game_Objects.pc.isRingWear() ? Game_Objects.pc.accuracy : Game_Objects.pc.accuracy / 2);
+
+        if (pc_hit > 50) {
+            pc_hit = Game_Objects.rng.returnRandom(10);
+        }
+
+        monster.hp = monster.hp - pc_hit;    //и уменьшаем жизнь монстра на размер урона нанесенного игроком
+
+        System.out.println("You hit of " + pc_hit);
+
+        if (monster.hp <= 0) {   //если здоровье монстра меньше или 0 - он погибает
+            npc_death(i, monster);
         } else if (Game_Objects.pc.hp <= 0) {
             pc_death();
         } else {
             System.out.println("You missed");   //либо же вы пропустили
         }
+
     }
 
     public void npc_death(int i, NPC y) {   //52.
