@@ -293,6 +293,7 @@ public class Game_Logic {
         int i = Game_Objects.pc.inRoom;
         Optional<NPC> npcToAttack = Game_Objects.room.get(i).getNpc(x[1]);
 
+<<<<<<< HEAD
         if (npcToAttack == null)
             return;
 
@@ -307,6 +308,23 @@ public class Game_Logic {
             System.out.println("The " + monster.name + " hit you of " + npc_damage);    //выводим сообщение о полученом ущербе
         } else {
             System.out.println("The " + monster.name + " missed");  //либо же монстр промахнулся
+=======
+                        int pc_hit = Game_Objects.rng.returnRandom(100);    //рандомный урон игрока (до 100)
+                        pc_hit = pc_hit + (Game_Objects.pc.accuracy / 2);    //урон будет равен полученному рандомно размеру урона плюс точность / 2
+                        if (pc_hit > 50) {   //если наносимый ущерб будет больше 50
+                            int pc_damage = Game_Objects.rng.returnRandom(10);  //сокращаем этот урон до (1-10)
+                            Game_Objects.room.get(i).npc.get(y).hp = Game_Objects.room.get(i).npc.get(y).hp - pc_damage;    //и уменьшаем жизнь монстра на размер урона нанесенного игроком
+                            System.out.println("You hit of " + Game_Objects.room.get(i).npc.get(y).name + " " + pc_damage + " of damage");
+                            if (Game_Objects.room.get(i).npc.get(y).hp <= 0) {   //если здоровье монстра меньше или 0 - он погибает
+                                npc_death(i, y);    //такой-то монстр умер в такой-то комнате
+                            }
+                        } else {
+                            System.out.println("You missed");   //либо же вы пропустили
+                        }
+                    }
+                }
+            }
+>>>>>>> master
         }
 
         int pc_hit = Game_Objects.rng.returnRandom(10);    //рандомный урон игрока (до 100)
@@ -333,6 +351,7 @@ public class Game_Logic {
 
     }
 
+<<<<<<< HEAD
     public void npc_death(int i, NPC y) {   //52.
         System.out.println("A " + y.name + " has died");
         Game_Objects.room.get(i).npc.remove(y);
@@ -343,6 +362,13 @@ public class Game_Logic {
         System.out.println("You travelling is over...");
     }
 
+=======
+    public void npc_death(int i, int y) {   //52.
+        System.out.println(Game_Objects.room.get(i).npc.get(y).name + " has died");
+        Game_Objects.room.get(i).npc.remove(y);
+    }
+
+>>>>>>> master
 }
 
 /*
